@@ -5,6 +5,7 @@ globals [
   total
   partner
   total-links
+  max-deg
 ]
 
 turtles-own [
@@ -147,12 +148,25 @@ to update-turtles
 
 end
 
+to-report status [ego alter]
+  let status [total-friends] of alter
+  if max-deg != 0 [
+    set status status / max-deg
+    set status status * [total-friends] of alter
+    set status status / [total-friends] of ego
+    report status]
+  if max-deg = 0 [report 0]
+end
+  
+  
+
 to update-globals
   let similar-neighbors sum [similar-nearby] of turtles
   let total-neighbors sum [total-nearby] of turtles
   if total-neighbors != 0 [set percent-similar (similar-neighbors / total-neighbors) * 100]
   if total-neighbors = 0 [set percent-similar 0]
   set percent-unhappy (count turtles with [not happy]) / (count turtles) * 100
+  set max-deg max [total-friends] of turtles
 end
 
 to do-plots
@@ -184,8 +198,6 @@ to do-plots
     set degree degree + 1
   ]
 end
-
-
 
 
 ; Copyright 1997 Uri Wilensky. All rights reserved.
@@ -282,7 +294,7 @@ number
 number
 0
 2500
-1500
+2010
 10
 1
 NIL
@@ -297,7 +309,7 @@ SLIDER
 %-similar-wanted
 0
 100
-60
+20
 1
 1
 %
@@ -488,7 +500,7 @@ personal-vs-friends
 personal-vs-friends
 0
 100
-100
+78
 1
 1
 %
@@ -520,7 +532,7 @@ friends-attitudes-makeup
 friends-attitudes-makeup
 0
 100
-100
+0
 1
 1
 %
