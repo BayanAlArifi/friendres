@@ -1,0 +1,1 @@
+We use this project to extend Schelling's 1968 model of residential segregation to the situation where residential and friendship networks interact with each other.
